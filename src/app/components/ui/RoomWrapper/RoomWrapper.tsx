@@ -1,15 +1,19 @@
-import LinkButton from "../LinkButton/page";
+import Image from "next/image";
+import LinkButton from "../LinkButton/LinkButton";
 
 const RoomWrapper = () => {
   return (
-    <div className="flex-col md:flex-row flex flex-1 w-full md:max-h-[300px] p-5 shadow-lg border-[1px] rounded-lg justify-between my-5">
+    <div className="flex-col md:flex-row flex flex-1 container md:max-h-[300px] p-5 shadow-lg border-[1px] rounded-lg justify-between my-5">
       <div className="flex-[2] bg-slate-400 text-center overflow-hidden">
         {" "}
-        <img
-          className="w-full max-h-full object-cover"
+        <Image
+          width={30}
+          height={30}
+          className="w-full h-full object-cover"
           src="https://themes.getmotopress.com/booklium-bed-and-breakfast/wp-content/uploads/sites/33/2019/09/The-meadow-room-3.jpg"
           alt="pic"
-        ></img>
+          layout="responsive"
+        />
       </div>
       <div className="flex md:flex-[2] py-5 md:py-0 md:px-5 flex-col">
         <h2 className="flex-1 text-xl font-bold">Name of The Room</h2>

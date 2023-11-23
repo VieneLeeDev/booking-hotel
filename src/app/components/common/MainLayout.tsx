@@ -1,11 +1,11 @@
-import { Footer } from "../ui/Footter/page";
-import { Header } from "../ui/Header/page";
+import { Footer } from "../ui/Footter/Footter";
+import { Header } from "../ui/Header/Hearder";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-col max-w-screen h-screen">
+    <div className="relative flex flex-col max-w-screen min-h-screen ">
       <Header />
-      <div className="px-5 flex w-full xl:px-[300px]">{children}</div>
+      <div className="flex justify-center items-center">{children}</div>
       <Footer />
     </div>
   );
