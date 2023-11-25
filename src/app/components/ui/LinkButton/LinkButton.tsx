@@ -1,16 +1,17 @@
 import Link from "next/link";
 
-// interface LinkButtonProps {
-//   href: string;
-//   text: string;
-// }
-const LinkButton = () => {
+interface LinkButtonProps {
+  children: string;
+  href: string;
+  classCustom?: string;
+}
+const LinkButton = ({ children, href, classCustom }: LinkButtonProps) => {
   return (
     <Link
-      className="flex flex-1 justify-center items-center  w-full max-h-[50px] border-[1px] text-xl font-sans my-2"
-      href={`/detailroom`}
+      className={`${classCustom? `${classCustom}`:`bg-[#13b0bb] h-[50px] text-white`} flex flex-1 justify-center items-center md:max-h-[50px] border-[1px] text-xl font-sans my-2 rounded-md`}
+      href={href}
     >
-      View detail
+      {children}
     </Link>
   );
 };

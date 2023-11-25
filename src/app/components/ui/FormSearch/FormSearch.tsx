@@ -2,34 +2,56 @@ import Button from "../Button/Button";
 
 const FormSearch = () => {
   return (
-    <div className="hidden lg:flex flex-col h-auto container mx-auto">
-      <div className="">
-        <h2 className="text-3xl text-white font-bold my-5">
-          Book hotel quickly & safely
-        </h2>
-        <div className="h-[75px] ">
-          <form className="flex  h-full">
-            <div className="flex flex-col flex-1 h-full ">
-              <label className=" h-1/3 text-white">check-in:...</label>
-              <input className=" h-2/3 border-[2px] border-solid border-[#ffce00] focus:outline-none px-2 whitespace-nowrap text-ellipsis overflow-hidden"></input>
-            </div>
-            <div className="flex flex-col flex-1 h-full ">
-              <label className=" h-1/3 text-white">check-out:...</label>
-              <input className=" h-2/3 border-[2px] border-solid border-[#ffce00] focus:outline-none px-2 whitespace-nowrap text-ellipsis overflow-hidden border-l-0"></input>
-            </div>
-            <div className="flex flex-col flex-1 h-full ">
-              <label className=" h-1/3 text-white">Guest:...</label>
-              <input className=" h-2/3 border-[2px] border-solid border-[#ffce00] focus:outline-none px-2 whitespace-nowrap text-ellipsis overflow-hidden border-l-0"></input>
-            </div>
-            <div className="flex flex-col flex-1 h-full ">
-              <label className=" h-1/3 text-white">Location:...</label>
-              <input className=" h-2/3 border-[2px] border-solid border-[#ffce00] focus:outline-none px-2 whitespace-nowrap text-ellipsis overflow-hidden border-l-0"></input>
-            </div>
-            <div className="flex flex-col flex-1 h-full ">
-              <label className=" h-1/3"></label>
-              <Button></Button>
-            </div>
-          </form>
+    <div className="container hidden lg:flex lg:flex-col lg:mx-auto">
+      <h2 className="text-3xl text-white font-bold my-5">
+        Book hotel quickly & safely
+      </h2>
+      <div className="h-[75px] flex">
+        <div className="flex flex-col flex-1 h-full ">
+          <label htmlFor="checkin" className="flex-1 text-white">
+            Check-in...
+          </label>
+          <input
+            id="checkin"
+            type="text"
+            className="flex-[2] focus:outline-none border-[#ffce00] border-[2px] px-2"
+          ></input>
+        </div>
+        <div className="flex flex-col flex-1 h-full ">
+          <label htmlFor="checkin" className="flex-1 text-white">
+            Check-in...
+          </label>
+          <input
+            id="checkin"
+            type="text"
+            className="flex-[2] focus:outline-none border-[#ffce00] border-[2px] px-2"
+          ></input>
+        </div>
+        <div className="flex flex-col flex-1 h-full ">
+          <label htmlFor="checkin" className="flex-1 text-white">
+            Guest:...
+          </label>
+          <input
+            id="checkin"
+            type="text"
+            className="flex-[2] focus:outline-none border-[#ffce00] border-[2px] px-2"
+          ></input>
+        </div>
+        <div className="flex flex-col flex-1 h-full ">
+          <label htmlFor="checkin" className="flex-1 text-white">
+            Location:...
+          </label>
+          <input
+            id="checkin"
+            type="text"
+            className="flex-[2] focus:outline-none border-[#ffce00] border-[2px] px-2"
+          ></input>
+        </div>
+        <div className="flex flex-col flex-1 h-full  ">
+          <div className="h-[25px] full-full"></div>
+          <div className="flex-1">
+            <Button />
+          </div>
         </div>
       </div>
     </div>

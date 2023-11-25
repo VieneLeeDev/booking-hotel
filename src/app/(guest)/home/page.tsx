@@ -11,6 +11,7 @@ const Home = () => {
         <FormSearch />
       </div>
       <div className="container mx-auto px-5 md:px-0">
+        {/**products */}
         <div className="my-20">
           <div className="flex flex-col md:flex-row justify-between my-10">
             <div className="text-left text-[#3b4249]">
@@ -20,9 +21,11 @@ const Home = () => {
                 unforgettable vacation!
               </p>
             </div>
-            <Button />
+            <div className="w-[150px]">
+              <LinkButton href="/room">View All</LinkButton>
+            </div>
           </div>
-          <div className="grid gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-4 place-items-center">
+          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 place-items-center">
             <Cart />
             <Cart />
             <Cart />
@@ -38,14 +41,12 @@ const Home = () => {
           {/** Tag service */}
           <div className="flex justify-center items-center md:my-5 lg:my-0 h-[300px]">
             <div className="p-5 flex flex-col justify-center items-center h-full border-[1px]">
-              <div className="h-1/3 max-h-[65px]">
+              <div className="relative h-1/3 aspect-square">
                 <Image
-                  width={30}
-                  height={30}
-                  className="w-full h-full object-cover object-center"
+                  fill
+                  className="object-cover object-center "
                   src="https://themes.getmotopress.com/booklium-default/wp-content/uploads/sites/29/2019/09/list-your-property1.png"
                   alt="pic"
-                  layout="responsive"
                 />
               </div>
               <div className="h-2/3 text-center text-[#3b4249] my-5">
@@ -62,14 +63,12 @@ const Home = () => {
           {/** Tag service */}
           <div className="flex justify-center items-center md:my-5 lg:my-0 h-[300px]">
             <div className="p-5 flex flex-col justify-center items-center h-full border-[1px]">
-              <div className="h-1/3 max-h-[65px]">
+              <div className="relative h-1/3 aspect-square">
                 <Image
-                  width={30}
-                  height={30}
-                  className="w-full h-full object-cover object-center"
+                  fill
+                  className="object-cover object-center "
                   src="https://themes.getmotopress.com/booklium-default/wp-content/uploads/sites/29/2019/09/list-your-property1.png"
                   alt="pic"
-                  layout="responsive"
                 />
               </div>
               <div className="h-2/3 text-center text-[#3b4249] my-5">
@@ -86,14 +85,12 @@ const Home = () => {
           {/** Tag service */}
           <div className="flex justify-center items-center md:my-5 lg:my-0 h-[300px]">
             <div className="p-5 flex flex-col justify-center items-center h-full border-[1px]">
-              <div className="h-1/3 max-h-[65px]">
+              <div className="relative h-1/3 aspect-square">
                 <Image
-                  width={30}
-                  height={30}
-                  className="w-full h-full object-cover object-center"
+                  fill
+                  className="object-cover object-center "
                   src="https://themes.getmotopress.com/booklium-default/wp-content/uploads/sites/29/2019/09/list-your-property1.png"
                   alt="pic"
-                  layout="responsive"
                 />
               </div>
               <div className="h-2/3 text-center text-[#3b4249] my-5">
@@ -118,7 +115,9 @@ const Home = () => {
                 experience together.
               </p>
             </div>
-            <Button />
+            <div className="w-2/3 md:w-1/3 lg:1/4">
+              <LinkButton href="/room">View Blogs</LinkButton>
+            </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 place-items-center">
             {/**Tag blog */}
