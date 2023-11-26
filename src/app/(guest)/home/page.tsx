@@ -116,7 +116,7 @@ const Home = () => {
               </p>
             </div>
             <div className="w-2/3 md:w-1/3 lg:1/4">
-              <LinkButton href="/room">View Blogs</LinkButton>
+              <LinkButton href="/room">View Articles And Introductions. </LinkButton>
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 place-items-center">
