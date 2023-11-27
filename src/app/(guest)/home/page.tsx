@@ -1,10 +1,38 @@
-import Button from "@/app/components/ui/Button/Button";
+"use client";
 import Cart from "@/app/components/ui/Cart/Cart";
 import FormSearch from "@/app/components/ui/FormSearch/FormSearch";
 import LinkButton from "@/app/components/ui/LinkButton/LinkButton";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+interface Hotel {
+  name: string;
+  price: string;
+  rate: string;
+  description: string;
+  location: string;
+}
+
+const getHotels = async (): Promise<Hotel[]> => {
+  const data = await fetch(
+    "https://62ab5d42a62365888bdad034.mockapi.io/hotels"
+  );
+  const hotels = await data.json();
+
+  return hotels;
+};
 
 const Home = () => {
+  const [hotelList, setHotelList] = useState<Hotel[]>([]);
+  
+  useEffect(() => {
+    const getAllsHotels = async () => {
+      const hotels = await getHotels();
+      setHotelList([...hotels]);
+    };
+    getAllsHotels();
+  }, []);
+
   return (
     <div className="flex flex-col w-full">
       <div className="w-full flex items-center h-[500px] bg-center bg-cover bg-[url('https://themes.getmotopress.com/booklium-default/wp-content/uploads/sites/29/2019/08/Slide-2.jpg')]">
@@ -26,14 +54,17 @@ const Home = () => {
             </div>
           </div>
           <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 place-items-center">
-            <Cart />
-            <Cart />
-            <Cart />
-            <Cart />
-            <Cart />
-            <Cart />
-            <Cart />
-            <Cart />
+            {hotelList.map((product: any) => (
+              <Cart
+                key={product.id}
+                name={product.name}
+                description={product.description}
+                price={product.price}
+                rate={product.rate}
+                location={product.location}
+                img={product.img}
+              />
+            ))}
           </div>
         </div>
         {/**Service */}
@@ -116,7 +147,9 @@ const Home = () => {
               </p>
             </div>
             <div className="w-2/3 md:w-1/3 lg:1/4">
-              <LinkButton href="/room">View Articles And Introductions. </LinkButton>
+              <LinkButton href="/room">
+                View Articles And Introductions
+              </LinkButton>
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 place-items-center">

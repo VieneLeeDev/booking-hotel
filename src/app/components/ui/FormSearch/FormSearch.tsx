@@ -2,12 +2,12 @@ import Button from "../Button/Button";
 
 const FormSearch = () => {
   return (
-    <div className="container hidden lg:flex lg:flex-col lg:mx-auto">
+    <div className="hidden container xl:flex xl:flex-col xl:mx-auto">
       <h2 className="text-3xl text-white font-bold my-5">
         Book hotel quickly & safely
       </h2>
-      <div className="h-[75px] flex">
-        <div className="flex flex-col flex-1 h-full ">
+      <div className="h-[75px] flex w-full">
+        <div className="flex flex-col flex-1 h-full">
           <label htmlFor="checkin" className="flex-1 text-white">
             Check-in...
           </label>

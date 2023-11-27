@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 interface LinkButtonProps {
-  children: string;
+  children?: string;
   href: string;
   classCustom?: string;
 }

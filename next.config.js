@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["themes.getmotopress.com"],
+    domains: ["themes.getmotopress.com","loremflickr.com"],
   },
   async redirects() {
     return [
