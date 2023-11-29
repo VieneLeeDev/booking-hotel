@@ -1,6 +1,6 @@
 const Received = () => {
   return (
-    <div className="flex flex-col container">
+    <div className="flex flex-col container ">
       <h1 className="text-center text-4xl font-bold h-[100px] my-10">
         Reservation Received
       </h1>

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import MenuHeader from "../MobileHeader/MobileHeader";
 import { FiAlignJustify } from "react-icons/fi";
 import { usePathname } from "next/navigation";
-import Navigate from "../Navigate/Navigate";
 export const Header = () => {
   const [isShowDrawer, setIsShowDrawer] = useState(false);
   const handleClickDrawer = () => {
@@ -19,18 +18,6 @@ export const Header = () => {
           {/**navigation desktop*/}
           <Link href={"/home"} className={`text-xl text-black flex justify-center items-center h-2/3 w-[150px] hover:opacity-50 ${pathname === "/home"? "text-blue-600 border-b-[2px] border-solid border-blue-500 duration-100": ""} `}>
             Home
-          </Link>
-          <Link href={"/room"} className={`text-xl text-black flex justify-center items-center h-2/3 w-[150px] hover:opacity-50 ${pathname === "/room"? "text-blue-600 border-b-[2px] border-solid border-blue-500 duration-100": ""} `}>
-            Room List
-          </Link>
-          <Link href={"/detailroom"} className={`text-xl text-black flex justify-center items-center h-2/3 w-[150px] hover:opacity-50 ${pathname === "/detailroom"? "text-blue-600 border-b-[2px] border-solid border-blue-500 duration-100": ""} `}>
-            Detail Room
-          </Link>
-          <Link href={"/received"} className={`text-xl text-black flex justify-center items-center h-2/3 w-[150px] hover:opacity-50 ${pathname === "/received"? "text-blue-600 border-b-[2px] border-solid border-blue-500 duration-100": ""} `}>
-            Received
-          </Link>
-          <Link href={"/confirmation"} className={`text-xl text-black flex justify-center items-center h-2/3 w-[150px] hover:opacity-50 ${pathname === "/confirmation"? "text-blue-600 border-b-[2px] border-solid border-blue-500 duration-100": ""} `}>
-          Confirmation
           </Link>
         </div>
         <button

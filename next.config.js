@@ -1,16 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["themes.getmotopress.com","loremflickr.com"],
-  },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/home",
-        permanent: true,
-      },
-    ];
+    domains: ["themes.getmotopress.com","loremflickr.com","dynamic-media-cdn.tripadvisor.com","a25hotel.com"],
   },
 };
 

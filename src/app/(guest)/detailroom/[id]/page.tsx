@@ -1,12 +1,20 @@
+"use client";
 import Button from "@/app/components/ui/Button/Button";
 import React from "react";
+import hotels from "../../../api/hotels/hotels.json"
+import rooms from "../../../api/rooms/rooms.json"
+import Image from "next/image";
 
-const DetailRoom = () => {
+
+const DetailRoom = ({ params }: { params: { id: string } }) => {
+  const detailRoom= rooms.find((room) => room.id_room === params.id)
+  const detailHotel = hotels.find((hotel) => hotel.id_hotel === detailRoom?.id_hotel)
+  console.log(detailHotel,detailRoom)
   return (
     <div className="container flex flex-col h-full justify-center items-center lg:py-[30px]">
       <div className="flex flex-col h-1/2 justify-center items-center lg:py-[20px">
         <h1 className="text-2xl md:text-4xl font-bold mb-10">
-          Standard Single Room
+          {detailHotel?.name}
         </h1>
         <p className="text-center md:max-w-1/3 break-words">
           The Mountain Room is available with either double or single beds.
@@ -15,14 +23,15 @@ const DetailRoom = () => {
         </p>
       </div>
       <hr className="container my-10" />
-      <div className="container h-[400px] bg-slate-100 flex justify-center items-center">
-        <h2 className="text-4xl">Slide Room Area</h2>
+      <div className="container relative h-[400px] bg-slate-100 flex justify-center items-center">
+        <Image fill className="object-cover object-center" alt="pic" src={detailRoom ? `${detailRoom?.image_url}` :"https://fl-1.cdn.flockler.com/embed/no-image.svg"} />
       </div>
       <hr className="container my-10" />
       <div className="container flex flex-col md:flex-row ">
         <div className="flex-[2]">
           <p>
-            The Mountain Room is a newly renovated studio apartment with
+            {detailHotel?.description}
+            {/* The Mountain Room is a newly renovated studio apartment with
             breathtaking city views. Our apartments for rent in the sky define
             the new benchmark of NYC luxury: expansive, exclusive and
             extraordinary from every vantage point. Dramatic window views with
@@ -31,7 +40,7 @@ const DetailRoom = () => {
             floors, unparalleled lifestyle concierge. You can rent the entire
             apartment or any unit like a studio, multiple-bedroom apartments –
             any unit you can find on our website. Reach out and a member of our
-            team will help you get started.
+            team will help you get started. */}
           </p>
           {/**Detail */}
           <div className="flex-col lg:flex-row flex container min-h-[300px] border-[1px] p-5 my-10 lg:justify-between">
@@ -40,27 +49,15 @@ const DetailRoom = () => {
               <ul>
                 <li className="flex my-5 break-words">
                   <span className="text-[#767b80] w-1/4">Guest:</span>
-                  <span className="w-3/4">6</span>
-                </li>
-                <li className="flex my-5 break-words">
-                  <span className="text-[#767b80] w-1/4">Amenities:</span>
-                  <span className="w-3/4">
-                    {" "}
-                    Bathroom essentials, Beachfront, Bedroom comforts, Free
-                    parking, Hair dryer, Heating, Terrace, Wi-Fi
-                  </span>
-                </li>
-                <li className="flex my-5 break-words">
-                  <span className="text-[#767b80] w-1/4">View:</span>
-                  <span className="w-3/4"> Mountains</span>
+                  <span className="w-3/4">{detailRoom?.guest}</span>
                 </li>
                 <li className="flex my-5 break-words">
                   <span className="text-[#767b80] w-1/4">Size:</span>
-                  <span className="w-3/4"> 345m²</span>
+                  <span className="w-3/4"> {detailRoom?.size}</span>
                 </li>
                 <li className="flex my-5 break-words">
                   <span className="text-[#767b80] w-1/4">Location:</span>
-                  <span className="w-3/4">United States of America</span>
+                  <span className="w-3/4">{detailHotel?.city}</span>
                 </li>
               </ul>
             </div>
@@ -79,11 +76,10 @@ const DetailRoom = () => {
             <div className="flex flex-col justify-center h-1/4">
               <p className="text-xl">
                 <span className="text-2xl">
-                  <strong>€560 </strong>
+                  <strong>€{detailRoom?.price} </strong>
                 </span>{" "}
                 per night
               </p>
-              <p>Rate:****</p>
             </div>
             <hr />
             <div className="h-3/4">
@@ -100,9 +96,9 @@ const DetailRoom = () => {
               </div>
               <p className="text-xl my-5">
                 <span className="text-2xl">
-                  <strong>€560 </strong>
+                  <strong>€{detailRoom?.price}</strong>
                 </span>{" "}
-                for x nights
+                for 1 nights
               </p>
               <Button />
             </div>
