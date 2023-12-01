@@ -55,9 +55,6 @@ const Home = () => {
                 unforgettable vacation!
               </p>
             </div>
-            <div className="w-[150px]">
-              <LinkButton href="#">View All</LinkButton>
-            </div>
           </div>
           <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 place-items-center items-stretch">
             {/* {loading ? <Loading /> : null} */}
