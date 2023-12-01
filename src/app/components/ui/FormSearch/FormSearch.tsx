@@ -2,16 +2,22 @@
 import { Hotel } from "@/app/constants/hotels";
 import { Room } from "@/app/constants/rooms";
 import { useEffect, useState } from "react";
-import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
-
+import hotels from "../../../api/hotels/hotels.json"
+import rooms from "../../../api/rooms/rooms.json"
+import { useRouter } from 'next/router'
 interface FormSearchProps {
   dataRoom?: any[];
   startSearch?: any;
-  dataHotel?: any[]
+  dataHotel?: any[];
+  setDateTime?: any; 
 }
-const FormSearch = ({ dataRoom, startSearch,dataHotel }: FormSearchProps) => {
-  const [resultFilter, setResultFilter] = useState(dataRoom);
+const FormSearch = ({ dataRoom, startSearch,dataHotel,setDateTime }: FormSearchProps) => {
+  const [citySearch, setCitySearch] = useState<string[]>([])
+  const [dateSearch,setDateSearch] = useState({
+    dateCheckIn: "",
+    dateCheckOut:""
+  })
   const [dataFormSearch, setDataFormSearch] = useState({
     guest: "All",
     location: "All",
@@ -23,35 +29,48 @@ const FormSearch = ({ dataRoom, startSearch,dataHotel }: FormSearchProps) => {
   const handleChangeLocation = (e: any) => {
     setDataFormSearch({ ...dataFormSearch, location: (e.target.value) });
   };
-
+  const handleChangeDateCheckin = (e: any) =>{
+    setDateSearch({...dateSearch,dateCheckIn:e.target.value})
+  }  
+  const handleChangeDateCheckOut = (e: any) =>{
+    setDateSearch({...dateSearch,dateCheckOut:e.target.value})
+  } 
   useEffect(() =>{
-    const array = dataRoom?.filter((room: Room) => (dataFormSearch.guest === "All" ? true: room.guest > Number(dataFormSearch.guest)) && (dataFormSearch.location === "All" ? true : dataHotel?.find((hotel: any) => hotel.id_hotel === room.id_hotel).city === dataFormSearch.location));
+    const array = dataRoom?.filter((room: Room) => (dataFormSearch.guest === "All" ? true: room.guest > Number(dataFormSearch.guest) ||room.guest === Number(dataFormSearch.guest) ) && (dataFormSearch.location === "All" ? true : dataHotel?.find((hotel: any) => hotel.id_hotel === room.id_hotel).city === dataFormSearch.location));
     startSearch(array);
+
+    const arrayCity = hotels.map((hotel) => hotel.city)
+    const unitArray = arrayCity.filter((city,index) => arrayCity.indexOf(city) === index)
+    setCitySearch(unitArray)
   },[dataFormSearch])
+
+  useEffect(() => {
+    setDateTime(dateSearch)
+  },[dateSearch.dateCheckOut])
 
   return (
     <div className="hidden container xl:flex xl:mx-auto h-[75px]">
-      <div className="w-1/4 h-full ">
+      <div className="w-1/4 h-full">
         <h3 className="text-black h-1/3 font-bold"> Check-in:...</h3>
         <div className="w-full h-2/3 ">
           <input
-            className="w-full h-full p-2 bg-slate-200"
-            id="date"
-            type="datetime-local"
+            className="w-full h-full p-2 bg-slate-200 outline-none"
+            type="date"
+            onChange={handleChangeDateCheckin}
           />
         </div>
       </div>
-      <div className="w-1/4 h-full ">
+      <div className="w-1/4 h-full">
         <h3 className="text-black h-1/3 font-bold"> Check-out:...</h3>
         <div className="w-full h-2/3 ">
           <input
-            className="w-full h-full p-2 bg-slate-200"
-            id="date"
-            type="datetime-local"
+            className="w-full h-full p-2 bg-slate-200 outline-none"
+            type="date"
+            onChange={handleChangeDateCheckOut}
           />
         </div>
       </div>
-      <div className="w-1/4 h-full ">
+      <div className="w-1/4 h-full">
         <h3 className="text-black h-1/3 font-bold"> Guest:...</h3>
         <select
           className="w-full h-2/3 outline-none p-2"
@@ -77,10 +96,11 @@ const FormSearch = ({ dataRoom, startSearch,dataHotel }: FormSearchProps) => {
           onChange={handleChangeLocation}
         >
           <option value={"All"}>All</option>
-          <option value={"Ha Noi"}>Ha Noi</option>
+          {citySearch.map((hotel,index) => <option key={index} value={hotel}>{hotel}</option>)}
+          {/* <option value={"Ha Noi"}>Ha Noi</option>
           <option value={"Da Nang"}>Da Nang</option>
           <option value={"Ho Chi Minh"}>Ho Chi Minh</option>
-          <option value={"Gia Lai"}>Gia Lai</option>
+          <option value={"Gia Lai"}>Gia Lai</option> */}
         </select>
       </div>
     </div>

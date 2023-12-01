@@ -40,6 +40,15 @@
     "address":"105 Cam Le, Gia Lai",
     "email":"Monte@gmail.com",
     "tel":"08999ad71",
-    "city":"Gia Lai"
+    "city":"Hue"
+},
+{
+    "id_hotel":"ht_6",
+    "name":"levien",
+    "description":"Located Mountains Villa Monte offers pet-friendly accommodations with lots of outdoor and indoor facilities. The villa is equipped with air conditioning and free WiFi. Free private parking is available on site, so you should not have any problems with it.The kitchen is fitted with a dishwasher, refrigerator and an oven. A flat-screen TV is available in several rooms. You’ll also enjoy a sun terrace and many other things.",
+    "address":"105 Cam Le, Gia Lai",
+    "email":"Monte@gmail.com",
+    "tel":"08999ad71",
+    "city":"Hue"
 }
 ]
