@@ -37,8 +37,6 @@ const DetailRoom = ({ params }: { params: { id: string } }) => {
     // }
   },[count,reload])
   
-  console.log(reload,dataInBill)
-
   const handleCountDays = (dateCheckIn: string,dateCheckOut:string) =>{
     const startDay = new Date(dateCheckIn).getTime()
     const endDay = new Date(dateCheckOut).getTime()
@@ -135,9 +133,9 @@ const DetailRoom = ({ params }: { params: { id: string } }) => {
               </div>
               <p className="text-xl my-5">
                 <span className="text-2xl">
-                  <strong>€{`${detailRoom && detailRoom?.price * count}`}</strong>
+                  <strong>€{`${dataInBill.checkIn !== "" ? detailRoom && detailRoom?.price * count :detailRoom?.price}`}</strong>
                 </span>{" "}
-                for {count} days
+                for {dataInBill.checkIn !== "" ? count : 1} days
               </p>
               <button className="w-[150px] h-[50px] bg-slate-200" onClick={handleClick}>Order</button>
             </div>
