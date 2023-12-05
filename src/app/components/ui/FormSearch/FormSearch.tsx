@@ -19,8 +19,6 @@ type RangeValue = [Dayjs | null, Dayjs | null] | null;
 const { RangePicker } = DatePicker;
  
 const FormSearch = ({ dataRoom, startSearch,dataHotel,setDateTime }: FormSearchProps) => {
-  const [dates, setDates] = useState<RangeValue>(null);
-  const [value, setValue] = useState<RangeValue>(null);
   const [citySearch, setCitySearch] = useState<string[]>([])
   const [guestSearch, setGuestSearch]=useState<number[]>([])
   const [dateSearch,setDateSearch] = useState({
@@ -74,26 +72,12 @@ const FormSearch = ({ dataRoom, startSearch,dataHotel,setDateTime }: FormSearchP
   
   //antd setting
 
-  const range = (start: number, end: number) => {
-    const result = [];
-    for (let i = start; i < end; i++) {
-      result.push(i);
-    }
-    return result;
-  };
 
 const disabledDate: RangePickerProps['disabledDate'] = (current) => {
   // Can not select days before today and today
   return current && current < dayjs().endOf('day');
 };
-  
-  const onOpenChange = (open: boolean) => {
-    if (open) {
-      setDates([null, null]);
-    } else {
-      setDates(null);
-    }
-  };
+
 
   return (
     <div className="hidden container xl:flex xl:mx-auto h-[75px]">
