@@ -25,6 +25,7 @@ const FormSearch = ({ dataRoom, startSearch,dataHotel,setDateTime }: FormSearchP
     dateCheckIn: "",
     dateCheckOut:""
   })
+
   const [dataFormSearch, setDataFormSearch] = useState({
     guest: "All",
     location: "All",
@@ -37,47 +38,91 @@ const FormSearch = ({ dataRoom, startSearch,dataHotel,setDateTime }: FormSearchP
     setDataFormSearch({ ...dataFormSearch, location: (e.target.value) });
   };
   const handleChangeDate = (obj: any,value:any) =>{
-    // setDateSearch({dateCheckIn:e.target.value,dateCheckOut:e})
     setDateSearch({dateCheckIn:value[0],dateCheckOut:value[1]})
   }  
   
-  useEffect(() => {
-    //filter unit city for form search
-    const arrayCity = hotels.map((hotel) => hotel.city)
-    const unitArray = arrayCity.filter((city,index) => arrayCity.indexOf(city) === index)
-    setCitySearch(unitArray)
-    //filter quantity guest for form search
-    const arrayGuest = rooms.map((rooms) => rooms.guest)
-    const unitGuest = arrayGuest.filter((guest,index) => arrayGuest.indexOf(guest) === index)
-    for(let i = 0; i < unitGuest.length; i++){
-      for(let j = i + 1; j < unitGuest.length;j++){
-        if (unitGuest[j] <= unitGuest[i]) {
-          let remain = unitGuest[i];
-          unitGuest[i] = unitGuest[j]
-          unitGuest[j] = remain
+  //filter and clean duplicate data in array
+  const getUnitData = (array: any[]) => {
+   const result = array.filter((product, index)=> array.indexOf(product) === index)
+   return result
+  }
+  // sort array number asc
+  const sortNumber = (array: any) => {
+    const result = array
+    for(let i = 0; i < result.length; i++){
+      for(let j = i + 1; j < result.length;j++){
+        if (result[j] <= result[i]) {
+          let remain = array[i];
+          array[i] = array[j]
+          array[j] = remain
         }
       }
     }
-    setGuestSearch(unitGuest)
+    return result
+  } 
+
+  useEffect(() => {
+    //filter unit city for form search
+    const arrayCity = hotels.map((hotel) => hotel.city)
+    const unitcity = getUnitData(arrayCity)
+    setCitySearch(unitcity)
+    //filter quantity guest for form search
+    const arrayGuest = rooms.map((rooms) => rooms.guest)
+    const unitGuest = getUnitData(arrayGuest)
+    setGuestSearch(sortNumber(unitGuest))
   },[])
-  
+
   useEffect(() =>{
-    const array = dataRoom?.filter((room: Room) => (dataFormSearch.guest === "All" ? true: room.guest > Number(dataFormSearch.guest) ||room.guest === Number(dataFormSearch.guest) ) && (dataFormSearch.location === "All" ? true : dataHotel?.find((hotel: any) => hotel.id_hotel === room.id_hotel).city === dataFormSearch.location));
-    startSearch(array);
+    //filter product based on data from form search (guest & location) 
+    const productsFiltered = dataRoom?.filter((room: Room) => (dataFormSearch.guest === "All" ? true: room.guest > Number(dataFormSearch.guest) || room.guest === Number(dataFormSearch.guest) ) && (dataFormSearch.location === "All" ? true : dataHotel?.find((hotel: any) => hotel.id_hotel === room.id_hotel).city === dataFormSearch.location));
+    startSearch(productsFiltered);
+
+    //focus guest to filter
+    if(dataFormSearch.location !== "All"){
+      const filterHotel = dataHotel?.filter((hotel: Hotel) => hotel.city === dataFormSearch.location)
+      const filterGuest = dataRoom?.filter((room: Room) => filterHotel?.find((hotel: Hotel) => hotel.id_hotel === room.id_hotel))
+      const cleanGuest = filterGuest?.map((item: Room) => item.guest)
+      setGuestSearch(getUnitData(sortNumber(cleanGuest)))
+    }
+    else {
+      const dataGuest = dataRoom?.map((room: Room) => room.guest)
+      setGuestSearch(getUnitData(sortNumber(dataGuest)))
+    }
+
+    // focus city to filter 
+    if(dataFormSearch.guest !== "All"){
+      let unitRooms
+      const filterRoom = dataRoom?.filter((room: Room) => room.guest > Number(dataFormSearch.guest) || room.guest === Number(dataFormSearch.guest))
+      filterRoom ? unitRooms = (getUnitData(filterRoom)):null
+      const filterHotel = dataHotel?.filter((hotel: Hotel) => filterRoom?.find((room) => hotel.id_hotel === room.id_hotel))
+      if(filterHotel){
+        let unitHotel = getUnitData(filterHotel.map((hotel) => hotel.city))
+        setCitySearch(unitHotel)
+      }
+    }
+    else{
+      let cities
+      const dataCity = dataHotel?.map((hotel: Hotel) => hotel.city)
+      if(dataCity){
+        cities = getUnitData(dataCity)
+        setCitySearch(cities)
+      }
+    }
   },[dataFormSearch])
 
+  //search date time check-in/check-out
   useEffect(() => {
     setDateTime(dateSearch)
   },[dateSearch.dateCheckOut])
   
-  //antd setting
-
-
-const disabledDate: RangePickerProps['disabledDate'] = (current) => {
-  // Can not select days before today and today
-  return current && current < dayjs().endOf('day');
-};
-
+  //handle filter form 
+  const handleFilterForm = (guest: any, location: any) => {
+    console.log(`guest:${guest}`,`location: ${location}`)
+  }
+  // validate datepicker 
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+   return current && current < dayjs().endOf('day');
+  };
 
   return (
     <div className="hidden container xl:flex xl:mx-auto h-[75px]">
@@ -88,7 +133,7 @@ const disabledDate: RangePickerProps['disabledDate'] = (current) => {
       className="w-full h-full rounded-none "
       disabledDate={disabledDate}
       onChange={(obj,value) => handleChangeDate(obj,value)}
-      format="DD-MM-YYYY"
+      format="MM-DD-YYYY"
     />
         </div>
       </div>

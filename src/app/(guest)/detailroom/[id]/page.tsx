@@ -7,9 +7,10 @@ import { useSearchParams } from "next/navigation";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import moment from 'moment'
+import { useRouter } from 'next/navigation';
 
 dayjs.extend(customParseFormat);
+
 const DetailRoom = ({ params }: { params: { id: string } }) => {
   const [count,setCount] = useState(1)
   const [reload, setReload] = useState(false)
@@ -17,7 +18,7 @@ const DetailRoom = ({ params }: { params: { id: string } }) => {
     checkIn: "",
     checkOut:"",
   })
-  
+  const [flag,setFlag] = useState(false)
   const [dataOrder,setDataOrder] = useState({
     checkInDate:"",
     checkOutDate:"",
@@ -26,45 +27,65 @@ const DetailRoom = ({ params }: { params: { id: string } }) => {
   
   const detailRoom= rooms.find((room) => room.id_room === params.id)
   const detailHotel = hotels.find((hotel) => hotel.id_hotel === detailRoom?.id_hotel)
-
+  
   const searchParams = useSearchParams();
   const dateCheckIn = searchParams.get('dateCheckIn') 
-  const dateCheckOut = searchParams.get('dateCheckOut') 
+  const dateCheckOut = searchParams.get('dateCheckOut')  
+  
+  const dataInSearch = {checkIn:dateCheckIn || "",
+    checkOut:dateCheckOut || "",
+  }
 
   useEffect(() =>{
-    console.log(dateCheckIn,dateCheckOut)
-    detailRoom && setDataInBill({...dataInBill,checkIn:String(dateCheckIn),checkOut:String(dateCheckOut)})
-    console.log(`checkin: ${dateCheckIn}`)
+    dataInSearch.checkIn !== "" && setDataInBill({checkIn:String(dateCheckIn),checkOut:String(dateCheckOut)})
+    handleCountDays(dataInSearch.checkIn,dataInSearch.checkOut)
   },[])
 
   useEffect(() => {
+   if(dataInBill.checkIn !== "" && dataInBill.checkOut !== ""){
     handleCountDays(dataInBill.checkIn,dataInBill.checkOut)
+  }
   },[count,reload])
-  
+
+  useEffect(() => {
+    handleCountDays(dataInBill.checkIn,dataInBill.checkOut)
+  },[dataInBill])
+
   const handleCountDays = (dateCheckIn: string,dateCheckOut:string) =>{
-    // const startDay = new Date(dateCheckIn).getTime()
-    // const endDay = new Date(dateCheckOut).getTime()
-    // const result = Math.floor((endDay - startDay)/ (1000 * 60 * 60 * 24)) + 1
-    // setCount(result)
+    const startDay = new Date(dateCheckIn).getTime()
+    const endDay = new Date(dateCheckOut).getTime()
+    const result = Math.floor((endDay - startDay)/(1000 * 60 * 60 * 24)) + 1
+    setCount(result)
   }
 
-  const handleClick = () => {
-    detailRoom && setDataOrder({checkInDate:dataInBill.checkIn,checkOutDate:dataInBill.checkOut,total:detailRoom?.price * count})
-  }
+  // const handleClick = () => {
+  //   detailRoom && setDataOrder({checkInDate:dataInBill.checkIn,checkOutDate:dataInBill.checkOut,total:detailRoom?.price * count})
+  // }
 
+  console.log(dataInBill)
   const onChangeDateCheckIn = (e: any) => {
-    setDataInBill({...dataInBill,checkIn:e.target.value})
+    setDataInBill({...dataInBill,checkIn:e})
     setReload(!reload)
   }
   const onChangeDateCheckOut = (e: any) => {
-    setDataInBill({...dataInBill,checkOut:e.target.value})
+    setDataInBill({...dataInBill,checkOut:e})
     setReload(!reload)
   }
 
-  
-  //antd setting
+ const ValidateCheckIn = (value: any) => {
+  return value && value < dayjs().endOf('day')  
+ }
 
-  return (
+ const ValidateCheckOut = (value:any) => {
+  return dayjs(value).isBefore(dayjs()) || dayjs(value).isBefore(`${dataInBill.checkIn}`)
+ }
+ 
+ // set default value for datePicker in detail products
+ const defaultValueCheckin = dataInSearch.checkIn === "" ? dayjs() : dayjs(`${dataInSearch.checkIn}`)
+ const defaultValueCheckOut =dataInSearch.checkOut === ""?dayjs(): dayjs(`${dataInSearch.checkOut}`)
+ 
+
+ return (
     <div className="container flex flex-col h-full justify-center items-center lg:py-[30px]">
       <div className="flex flex-col h-1/2 justify-center items-center lg:py-[20px">
         <h1 className="text-2xl md:text-4xl font-bold mb-10">
@@ -122,13 +143,11 @@ const DetailRoom = ({ params }: { params: { id: string } }) => {
             <div className="h-3/4">
               <div className="flex flex-col my-5 ">
                 <p className="text-sm font-semibold">Check-in Date*</p>
-                <DatePicker size="large" format={"DD-MM-YYYY"} onChange={(obj,value) => (console.log(value)) }/>
-                {/* <input onChange={onChangeDateCheckIn} defaultValue={dataInBill.checkIn} type="date" className="border-[1px] h-[50px] my-2 px-2"></input> */}
+                {<DatePicker  disabledDate={ValidateCheckIn} defaultValue={defaultValueCheckin} size="large" format="MM-DD-YYYY" onChange={(obj,value) => (onChangeDateCheckIn(value))}/>}
               </div>
               <div className="flex flex-col my-5 ">
                 <p className="text-sm font-semibold">Check-out Date*</p>
-                 {/* <input onChange={onChangeDateCheckOut} defaultValue={dataInBill.checkOut} type="date" className="border-[1px] h-[50px] my-2 px-2"></input> */}
-                 <DatePicker size="large" format={"DD-MM-YYYY"} onChange={(obj,value) => (console.log(value)) }/>
+                 {<DatePicker disabledDate={ValidateCheckOut} defaultValue={defaultValueCheckOut} size="large" format="MM-DD-YYYY" onChange={(obj,value) => setDataInBill({...dataInBill,checkOut:value})}/>}
               </div>
               <div className="my-5 break-word">
                 {/* <p className="text-red-500">message error</p> */}
@@ -139,7 +158,7 @@ const DetailRoom = ({ params }: { params: { id: string } }) => {
                 </span>{" "}
                 for {dataInBill.checkIn !== "" ? count : 1} days
               </p>
-              <button className="w-[150px] h-[50px] bg-slate-200" onClick={handleClick}>Order</button >
+              <button className="w-[150px] h-[50px] bg-slate-200" >Order</button >
             </div>
           </div>
         </div>
