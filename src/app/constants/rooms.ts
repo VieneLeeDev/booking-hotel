@@ -1,5 +1,5 @@
 export interface Room {
-    id: string;
+    id_room: string;
     id_hotel: string;
     image_url: string;
     guest: number;

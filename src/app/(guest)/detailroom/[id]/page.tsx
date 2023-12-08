@@ -7,7 +7,6 @@ import { useSearchParams } from "next/navigation";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { useRouter } from 'next/navigation';
 
 dayjs.extend(customParseFormat);
 
@@ -18,12 +17,13 @@ const DetailRoom = ({ params }: { params: { id: string } }) => {
     checkIn: "",
     checkOut:"",
   })
-  const [flag,setFlag] = useState(false)
-  const [dataOrder,setDataOrder] = useState({
-    checkInDate:"",
-    checkOutDate:"",
-    total:0,
-  })
+  // const [flag,setFlag] = useState(false)
+  // const [dataOrder,setDataOrder] = useState({
+  //   checkInDate:"",
+  //   checkOutDate:"",
+  //   total:0,
+  // })
+
   
   const detailRoom= rooms.find((room) => room.id_room === params.id)
   const detailHotel = hotels.find((hotel) => hotel.id_hotel === detailRoom?.id_hotel)
@@ -147,7 +147,7 @@ const DetailRoom = ({ params }: { params: { id: string } }) => {
               </div>
               <div className="flex flex-col my-5 ">
                 <p className="text-sm font-semibold">Check-out Date*</p>
-                 {<DatePicker disabledDate={ValidateCheckOut} defaultValue={defaultValueCheckOut} size="large" format="MM-DD-YYYY" onChange={(obj,value) => setDataInBill({...dataInBill,checkOut:value})}/>}
+                 {<DatePicker disabledDate={ValidateCheckOut} defaultValue={defaultValueCheckOut} size="large" format="MM-DD-YYYY" onChange={(obj,value) => (onChangeDateCheckOut(value))}/>}
               </div>
               <div className="my-5 break-word">
                 {/* <p className="text-red-500">message error</p> */}
