@@ -1,44 +1,51 @@
 import { types } from "mobx-state-tree";
-import room from "../../api/rooms/rooms.json"
-import { toJS } from "mobx";
-
+import room from "../../api/rooms/rooms.json";
+import { toJS, values } from "mobx";
+import { Hotel } from "../hotel/HotelStore";
+import hotel from "../../api/hotels/hotels.json";
 export const Room = types.model("Room", {
-  id_room: types.string,
-  id_hotel: types.string,
+  id: types.identifier,
+  hotel_id: types.string,
   image_url: types.string,
   price: types.number,
   size: types.string,
   guest: types.number,
 });
 
-//get all rooms from api
-const getAllDataRooms = () => {
-  // const data = await fetch('room-api-domain')
-  const data = room
-  return data
-}
-//defind a store 
+//defind a store
 export const RoomStore = types
   .model("RoomStore", {
-    isLoading:true,
-    rooms: types.array(Room)
+    isLoading: true,
+    rooms: types.array(Room),
+    hotels: types.array(Hotel),
+    guest: 1,
+    location: "All",
   })
-  .actions((self) => ({
-    getAllRooms() {
-      const data = getAllDataRooms()
-      self.rooms.replace(data)
-    },
-    removeRoom(id:string) {
-      const remain = getAllDataRooms()
-      const findRoom = remain.find((room) => room.id_room === id)
-      const indexRoom = findRoom ? remain.indexOf(findRoom) : null
-      if(typeof indexRoom === 'number'){
-        remain.splice(indexRoom,1)
+  .views((self) => ({
+    get roomsAvailable() {
+      let listRoom = values(self.rooms);
+      if (self.guest !== 1 || self.location !== "All") {
+        if(self.guest !== 1){
+          return values(self.rooms).filter((room) => room.guest > self.guest);
+        }
+        if(self.location !== "All"){
+          const hotelCheck = values(self.hotels)
+          return values(self.rooms).filter((room) => hotelCheck.find((hotel) => room.hotel_id === hotel.id && hotel.city === self.location))
+        }
       }
-      self.rooms.replace(remain)
-    }
-    // getAllRooms: flow(function* getAllRooms () {
-    //   const data = yield getAllDataRooms()
-    //   self.rooms.replace(data)
-    // })
+      return listRoom;
+    },
   }))
+  .actions((self) => ({
+    setFilterGuest(guest: any) {
+      self.guest = guest;
+      self.location = "All";
+    },
+    setFilterCity(city: any) {
+      self.location = city;
+      self.guest = 1
+      console.log(self.guest)
+    },
+  }));
+
+export const roomStore = RoomStore.create({ rooms: room, hotels: hotel });

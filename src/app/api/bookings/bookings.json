@@ -1,14 +1,14 @@
 [{
-    "id_booking":"bk_01",
+    "id":"bk_01",
     "id_room":"room_01",
     "from":"01/11/2023",
     "to":"05/11/2023",
     "total":450
 },{
-    "id_booking":"bk_02",
-    "id_room":"room_01",
-    "from":"ht_1",
-    "to":"https://themes.getmotopress.com/booklium-default/wp-content/uploads/sites/29/2019/08/Villa-Sa-Riera-Sea-View-9.jpg",
-    "total":90
+    "id":"bk_02",
+    "id_room":"room_02",
+    "from":"11/11/2023",
+    "to":"15/11/2023",
+    "total":450
 }
 ]
