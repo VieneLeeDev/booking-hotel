@@ -24,27 +24,22 @@ export const RoomStore = types
   .views((self) => ({
     get roomsAvailable() {
       let listRoom = values(self.rooms);
-      if (self.guest !== 1 || self.location !== "All") {
         if(self.guest !== 1){
-          return values(self.rooms).filter((room) => room.guest > self.guest);
+          listRoom = listRoom.filter((room) => room.guest > self.guest);
         }
         if(self.location !== "All"){
           const hotelCheck = values(self.hotels)
-          return values(self.rooms).filter((room) => hotelCheck.find((hotel) => room.hotel_id === hotel.id && hotel.city === self.location))
+          listRoom = listRoom.filter((room) => hotelCheck.find((hotel) => room.hotel_id === hotel.id && hotel.city === self.location))
         }
-      }
       return listRoom;
     },
   }))
   .actions((self) => ({
     setFilterGuest(guest: any) {
       self.guest = guest;
-      self.location = "All";
     },
     setFilterCity(city: any) {
       self.location = city;
-      self.guest = 1
-      console.log(self.guest)
     },
   }));
 

@@ -1,14 +1,8 @@
 [{
     "id":"bk_01",
     "id_room":"room_01",
-    "from":"01/11/2023",
-    "to":"05/11/2023",
-    "total":450
-},{
-    "id":"bk_02",
-    "id_room":"room_02",
-    "from":"11/11/2023",
-    "to":"15/11/2023",
-    "total":450
-}
-]
+    "date_checkIn":"01/11/2023",
+    "date_checkOut":"05/11/2023",
+    "total_price":450,
+    "status":"Confirmed"
+}]

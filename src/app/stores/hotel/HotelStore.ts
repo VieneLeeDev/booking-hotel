@@ -1,5 +1,6 @@
 import { flow, types } from "mobx-state-tree";
 import hotel from "../../api/hotels/hotels.json"
+import { values } from "mobx";
 export const Hotel = types.model("Hotel", {
   id: types.string,
   name: types.string,
@@ -10,16 +11,17 @@ export const Hotel = types.model("Hotel", {
   city: types.string,
 });
 
-const getAllHotels = () => {
-  const data = hotel
-  return data
-}
 
 export const HotelStore = types
   .model("HotelStore", {
     isLoading: true,
     hotels: types.array(Hotel)
   })
+  .views((self) => ({
+    get hotelName() {
+      return values(self.hotels)
+    }
+  }))
   .actions((self) => ({
   }));
 

@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.202",
     "antd": "^5.11.5",
+    "lodash": "^4.17.21",
     "mobx": "^6.12.0",
     "mobx-react-lite": "^4.0.5",
     "mobx-state-tree": "^5.4.0",
@@ -18,9 +20,11 @@
     "react-datetime": "^3.2.0",
     "react-dom": "^18",
     "react-icons": "^4.12.0",
+    "react-uuid": "^2.0.0",
     "sass": "^1.69.5",
     "styled-components": "^6.1.1",
-    "swr": "^2.2.4"
+    "swr": "^2.2.4",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",

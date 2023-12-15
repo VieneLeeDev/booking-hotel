@@ -8,8 +8,6 @@ import { RoomStore, roomStore} from "@/app/stores/room/RoomStore";
 import { toJS } from "mobx";
 import { HotelStore, hotelStore } from "@/app/stores/hotel/HotelStore";
 const Home = observer(() => {
-  const [hotelList, setHotelsList] = useState<any[]>([]);
-  const [dataFilter, setDataFilter] = useState<any[]>([]);
   const [date,setDate] = useState({
     dateCheckIn: "",
     dateCheckOut:""
@@ -52,10 +50,10 @@ const Home = observer(() => {
                 query: {...date}
               }}>
               <Cart
-                name={`${product.id} | ${product.guest} peoples | ${product.size} - ${hotelList.find((hotel) => hotel.id_hotel === product.id_hotel)?.name}`}
+                name={`${product.id} | ${product.guest} peoples | ${product.size} - ${hotelStore.hotelName.find((hotel) => hotel.id === product.hotel_id)?.name}`}
                 description={product.description}
                 price={product.price}
-                city={`${hotelList.find((hotel) => hotel.id_hotel === product.id_hotel)?.city}`}
+                city={`${hotelStore.hotelName.find((hotel) => hotel.id === product.hotel_id)?.city}`}
                 img={product.image_url}
               /></Link>
             ))}

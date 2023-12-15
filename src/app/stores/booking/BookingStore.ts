@@ -1,11 +1,15 @@
 import { types } from "mobx-state-tree";
+import booking from "../../api/bookings/bookings.json";
+import { values } from "lodash";
+import { toJS } from "mobx";
+
 
 export const Booking = types.model("Booking", {
-  id_booking: types.string,
+  id: types.identifier,
+  id_room: types.string,
   date_checkIn: types.string,
   date_checkOut: types.string,
   total_price: types.number,
-  total_day: types.number,
   status: types.string,
 });
 
@@ -13,17 +17,21 @@ export const BookingStore = types
   .model("BookingStore", {
     isLoading: true,
     bookings: types.array(Booking),
+    id: "",
   })
+  .views((self) => ({
+    get bookingInfomation() {
+      return values(self.bookings).find((booking) => booking.id === self.id);
+    },
+  }))
   .actions((self) => ({
-    getAllBooking() {},
-    addBooking(booking:any){
-        self.bookings.push(booking)
+    addBooking(booking: any) {
+      self.bookings.push({...booking})
+      console.log(toJS(self.bookings))
     },
-    updateBooking(id:string,booking_infomation:any){
+    findBooking(id: string) {
+      self.id = id;
     },
-    removeBooking(id:string){
-        const filterBooking = self.bookings.find((booking) => booking.id_booking === id)
-        const indexOfBooking = filterBooking ? self.bookings.indexOf(filterBooking): null
-        indexOfBooking && self.bookings.splice(indexOfBooking,1)
-    }
   }));
+
+export const bookingStore = BookingStore.create({ bookings: booking });
