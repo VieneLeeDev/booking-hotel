@@ -10,7 +10,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import Link from "next/link";
 import uuid from "react-uuid";
 import { useRouter } from "next/navigation";
-import { bookingStore } from "@/app/stores/booking/BookingStore";
+import { bookingStore } from "@/app/stores/BookingStore";
 dayjs.extend(customParseFormat);
 
 const DetailRoom = ({ params }: { params: { id: string } }) => {

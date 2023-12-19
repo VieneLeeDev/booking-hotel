@@ -1,5 +1,5 @@
 'use client'
-import { bookingStore } from '@/app/stores/booking/BookingStore';
+import { bookingStore } from '@/app/stores/BookingStore';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 interface ReceivedProps{
